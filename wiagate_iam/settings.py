@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',
     'communities',
     'oauth2_provider',
+    'rest_framework',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
