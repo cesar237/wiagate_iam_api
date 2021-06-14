@@ -85,6 +85,9 @@ def turn_to_provider(request, pk):
 def login(request):
     username = request.data['username']
     password = request.data['password']
+    as_provider = False
+    if 'as_provider' in request.data.keys() and request.data['as_provider'] in [True, 'True', 'true', 'TRUE']:
+        as_provider = True
 
     # Find the user by his username
     try:
@@ -98,14 +101,21 @@ def login(request):
     # Check the password
     authenticated = user.check_password(password)
 
-    if authenticated:
-        return Response({
-            'status': 'success',
-            'message': 'User {} is authenticated'.format(username),
-            'data': UserSerializer(user, context={'request': request}).data
-        })
-    else:
+    if not authenticated:
         return Response({
             'status': 'failure',
             'message': 'User credentials incorrect!',
+        })
+    else:
+        if not as_provider or as_provider and user.is_provider:
+            return Response({
+                'status': 'success',
+                'message': 'User {} is authenticated'.format(username),
+                'data': UserSerializer(user, context={'request': request}).data,
+                
+            })
+        else:
+            return Response({
+            'status': 'failure',
+            'message': 'User is not a provider!',
         })
