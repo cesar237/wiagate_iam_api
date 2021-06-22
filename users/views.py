@@ -1,4 +1,3 @@
-from decimal import Context
 from rest_framework import viewsets, generics
 from .models import *
 from .serializers import *
@@ -41,6 +40,10 @@ class ProviderListView(generics.ListAPIView):
     queryset = User.objects.filter(is_provider=True)
     serializer_class = UserSerializer
 
+class ServiceProviderProfileViewSet(viewsets.ModelViewSet):
+    queryset = ServiceProviderProfile.objects.all()
+    serializer_class = ServiceProviderSerializer
+
 
 @api_view(http_method_names=['POST'])
 def turn_to_provider(request, pk):
@@ -66,10 +69,10 @@ def turn_to_provider(request, pk):
 
     # Create and attach a Service Provider Profile to the user
     sp_profile = ServiceProviderProfile()
-    sp_profile.save()
-    user.sp_profile = sp_profile
+    sp_profile.user = user
 
     # Save all the changes
+    sp_profile.save()
     user.save()
 
     # Notify the success of operation

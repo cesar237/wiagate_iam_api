@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, ServiceProviderProfile
+from .models import *
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -57,21 +57,5 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 class ServiceProviderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = [
-            'id',
-            'username', 
-            'first_name',
-            'last_name',
-            'email',
-            'address', 
-            'tel', 
-            'is_provider', 
-            'picture',
-            'sp_profile',
-        ]
-        read_only_fields = [
-            'id',
-            'is_provider',
-            'sp_profile',
-        ]
+        model = ServiceProviderProfile
+        fields = '__all__'

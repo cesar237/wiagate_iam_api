@@ -8,8 +8,7 @@ class User(AbstractUser):
     address = models.CharField(max_length=200)
     is_provider = models.BooleanField(default=False)
     tel = models.CharField(max_length=200)
-    sp_profile = models.OneToOneField('users.ServiceProviderProfile', on_delete=models.SET_NULL, null=True)
 
 
-class ServiceProviderProfile(User):
-    pass
+class ServiceProviderProfile(models.Model):
+    user = models.ForeignKey('users.User', related_name='profile_owner', on_delete=models.CASCADE, null=True)
