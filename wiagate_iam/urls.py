@@ -22,6 +22,25 @@ from rest_framework.routers import DefaultRouter
 # router = DefaultRouter()
 # router.register('users', UserViewSet)
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+root_url = "https://wiagate-iam-api.herokuapp.com"
+
+@api_view(["GET"])
+def api_root(request, format=None):
+    """
+    Retrouver le lien vers la vue par défaut des api
+    """
+    return Response({
+        "User API": root_url + "/users_api/",
+        "Service API": root_url + "/services_api/",
+        "Community API": root_url + '/communities_api/',
+        "OAUTH API": root_url + '/o/'
+    })
+    
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
@@ -30,5 +49,6 @@ urlpatterns = [
     path('communities_api/', include('communities.urls')),
 #    path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('', api_root),
 ]
 
