@@ -1,1 +1,1 @@
-web: gunicorn wiagate-iam-api.wsgi --log-file -
+web: gunicorn wiagate-iam.wsgi --log-file -
